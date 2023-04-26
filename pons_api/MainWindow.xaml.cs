@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace pons_api {
     /// <summary>
@@ -10,9 +12,11 @@ namespace pons_api {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-
-            string response = apiRequest("Hallo", "deen");
+            string response = apiRequest("cut", "deen");
+            List<translation> r = JsonConvert.DeserializeObject<List<translation>>(response);
+            TB_resullt.Text = r[1].hits[0].roms[0].headword;
         }
+
         public static string apiRequest(string termToLookUp, string languageCode) {
             string user = "pi_gmbh";
             string password = "e3fi3"; 
@@ -35,7 +39,6 @@ namespace pons_api {
 
                 reader.Close();
                 response.Close();
-
                 return responseFromServer;
             } catch (Exception e) {
                 MessageBox.Show(e.Message);
