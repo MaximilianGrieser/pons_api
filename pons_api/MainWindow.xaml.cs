@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Windows;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace pons_api {
     /// <summary>
@@ -12,9 +13,6 @@ namespace pons_api {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            string response = apiRequest("cut", "deen");
-            List<translation> r = JsonConvert.DeserializeObject<List<translation>>(response);
-            TB_resullt.Text = r[1].hits[0].roms[0].headword;
         }
 
         public static string apiRequest(string termToLookUp, string languageCode) {
@@ -44,6 +42,17 @@ namespace pons_api {
                 MessageBox.Show(e.Message);
                 return null;
             }
+        }
+
+        private void BTN_translate_Click(object sender, RoutedEventArgs e) {
+            string response = apiRequest(TB_input.Text, "deen");
+            List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
+
+            Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
+            string newText = removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
+
+
+            TB_resullt.Text = newText;
         }
     }
 }

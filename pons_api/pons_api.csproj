@@ -58,10 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="arab.cs" />
     <Compile Include="db_service.cs" />
-    <Compile Include="translation.cs" />
+    <Compile Include="language.cs" />
     <Compile Include="response.cs" />
     <Compile Include="rom.cs" />
+    <Compile Include="translation.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

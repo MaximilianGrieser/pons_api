@@ -10,5 +10,7 @@ namespace pons_api {
         public string headword_full { get; set; }
 
         public string wordclass { get; set; }
+
+        public List<arab> arabs { get; set; }
     }
 }
