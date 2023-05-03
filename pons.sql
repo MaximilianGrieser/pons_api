@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 03. Mai 2023 um 10:48
+-- Erstellungszeit: 03. Mai 2023 um 10:59
 -- Server-Version: 10.4.28-MariaDB
 -- PHP-Version: 8.2.4
 
@@ -110,7 +110,9 @@ CREATE TABLE `rom` (
 CREATE TABLE `translation` (
   `id` int(11) NOT NULL,
   `source` text NOT NULL,
-  `target` text NOT NULL
+  `target` text NOT NULL,
+  `sourceLanguageId` int(11) DEFAULT NULL,
+  `targetLanguageId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -168,7 +170,9 @@ ALTER TABLE `rom`
 -- Indizes für die Tabelle `translation`
 --
 ALTER TABLE `translation`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sourceLanguageId` (`sourceLanguageId`),
+  ADD KEY `targetLanguageId` (`targetLanguageId`);
 
 --
 -- Indizes für die Tabelle `wordclass`
@@ -251,6 +255,13 @@ ALTER TABLE `language`
 ALTER TABLE `rom`
   ADD CONSTRAINT `rom_ibfk_1` FOREIGN KEY (`arab_id`) REFERENCES `arab` (`id`),
   ADD CONSTRAINT `rom_ibfk_2` FOREIGN KEY (`wordclass_id`) REFERENCES `wordclass` (`id`);
+
+--
+-- Constraints der Tabelle `translation`
+--
+ALTER TABLE `translation`
+  ADD CONSTRAINT `translation_ibfk_1` FOREIGN KEY (`sourceLanguageId`) REFERENCES `lang` (`id`),
+  ADD CONSTRAINT `translation_ibfk_2` FOREIGN KEY (`targetLanguageId`) REFERENCES `lang` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
