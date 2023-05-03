@@ -7,10 +7,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="TB_resullt" HorizontalAlignment="Left" Height="23" Margin="256,171,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TB_input" HorizontalAlignment="Left" Height="23" Margin="256,143,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="BTN_translate" Content="Translate" HorizontalAlignment="Left" Margin="306,266,0,0" VerticalAlignment="Top" Width="75" Click="BTN_translate_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="533,266,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="TB_resullt" HorizontalAlignment="Left" Height="23" Margin="457,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TB_input" HorizontalAlignment="Left" Height="23" Margin="161,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="BTN_translate" Content="Translate" HorizontalAlignment="Left" Margin="599,9,0,0" VerticalAlignment="Top" Width="75" Click="BTN_translate_Click" RenderTransformOrigin="1.06,-8.925"/>
+        <Button x:Name="BTN_vocTrainer" Content="Train" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="75" Click="BTN_vocTrainer_Click"/>
+        <TextBox x:Name="TB_vocInput" HorizontalAlignment="Left" Height="23" Margin="10,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.658,0.554"/>
+        <TextBox x:Name="TB_vocQuestion" HorizontalAlignment="Left" Height="23" Margin="10,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CB_targetLang" HorizontalAlignment="Left" Margin="311,10,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CB_vocLanguage" HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CB_sourceLang" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 </Window>

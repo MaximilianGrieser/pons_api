@@ -11,9 +11,12 @@ namespace pons_api {
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        db_service db = new db_service();
         public MainWindow() {
             InitializeComponent();
+            Dictionary<int, string> languages = DBLoadService.getLanguages();
+            CB_sourceLang.ItemsSource = languages;
+            CB_targetLang.ItemsSource = languages;
+            CB_vocLanguage.ItemsSource = languages;
         }
 
         public static string apiRequest(string termToLookUp, string languageCode) {
@@ -46,8 +49,8 @@ namespace pons_api {
         }
 
         private void BTN_translate_Click(object sender, RoutedEventArgs e) {
-            if (db.getTransaltion(TB_input.Text) != "") {
-                TB_resullt.Text = db.getTransaltion(TB_input.Text);
+            if (DBLoadService.getTransaltion(TB_input.Text) != null) {
+                TB_resullt.Text = DBLoadService.getTransaltion(TB_input.Text)[0];
             } else {
                 TB_resullt.Text = getTranslationFromAPI(TB_input.Text);
             }
@@ -57,10 +60,29 @@ namespace pons_api {
             string response = apiRequest(sword, "deen");
             List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
 
+            DBSaveService.saveResponse(r);
+
             Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
             return removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
         }
 
+        private void BTN_vocTrainer_Click(object sender, RoutedEventArgs e) {
+            if (TB_vocQuestion.Text != String.Empty) {
+                if (DBLoadService.getTransaltion(TB_vocQuestion.Text).Contains(TB_vocInput.Text)) {
+                    MessageBox.Show("Your answer was correct", "Correct", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                } else {
+                    MessageBoxResult result = MessageBox.Show("Your answer was wrong", "Wrong", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    if (result == MessageBoxResult.Yes) {
+                        MessageBox.Show("The correct answers are: " + DBLoadService.getTransaltion(TB_vocQuestion.Text), "Answer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                }
+            }
+            string[] vocs = DBLoadService.getAllTranslations();
 
+            Random rnd = new Random();
+            int dice = rnd.Next(0, vocs.Length);
+
+            TB_vocQuestion.Text = vocs[dice];
+        }
     }
 }

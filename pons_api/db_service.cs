@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace pons_api {
     class db_service {
-        internal string getTransaltion(string text) {
+        internal List<string> getTransaltion(string text) {
             throw new NotImplementedException();
         }
     }

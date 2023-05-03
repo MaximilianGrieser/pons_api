@@ -25,5 +25,9 @@ namespace pons_api
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
             }
         }
+
+        internal static void saveResponse(List<language> r) {
+            throw new NotImplementedException();
+        }
     }
 }
