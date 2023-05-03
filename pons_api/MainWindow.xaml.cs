@@ -11,6 +11,7 @@ namespace pons_api {
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        db_service db = new db_service();
         public MainWindow() {
             InitializeComponent();
         }
@@ -45,14 +46,21 @@ namespace pons_api {
         }
 
         private void BTN_translate_Click(object sender, RoutedEventArgs e) {
-            string response = apiRequest(TB_input.Text, "deen");
+            if (db.getTransaltion(TB_input.Text) != "") {
+                TB_resullt.Text = db.getTransaltion(TB_input.Text);
+            } else {
+                TB_resullt.Text = getTranslationFromAPI(TB_input.Text);
+            }
+        }
+
+        private string getTranslationFromAPI(string sword) {
+            string response = apiRequest(sword, "deen");
             List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
 
             Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
-            string newText = removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
-
-
-            TB_resullt.Text = newText;
+            return removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
         }
+
+
     }
 }

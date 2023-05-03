@@ -9,7 +9,8 @@
     <Grid>
         <TextBox x:Name="TB_resullt" HorizontalAlignment="Left" Height="23" Margin="256,171,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="TB_input" HorizontalAlignment="Left" Height="23" Margin="256,143,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="BTN_translate" Content="Button" HorizontalAlignment="Left" Margin="306,266,0,0" VerticalAlignment="Top" Width="75" Click="BTN_translate_Click"/>
+        <Button x:Name="BTN_translate" Content="Translate" HorizontalAlignment="Left" Margin="306,266,0,0" VerticalAlignment="Top" Width="75" Click="BTN_translate_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="533,266,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>
