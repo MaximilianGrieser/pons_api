@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 27. Apr 2023 um 12:09
+-- Erstellungszeit: 03. Mai 2023 um 10:48
 -- Server-Version: 10.4.28-MariaDB
 -- PHP-Version: 8.2.4
 
@@ -16,13 +16,13 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-DROP DATABASE pons;
+
 --
 -- Datenbank: `pons`
 --
-CREATE DATABASE pons;
+
 -- --------------------------------------------------------
-USE pons;
+
 --
 -- Tabellenstruktur für Tabelle `arab`
 --
@@ -56,6 +56,24 @@ CREATE TABLE `lang` (
   `id` int(11) NOT NULL,
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `lang`
+--
+
+INSERT INTO `lang` (`id`, `description`) VALUES
+(1, 'de'),
+(2, 'el'),
+(3, 'en'),
+(4, 'es'),
+(5, 'fr'),
+(6, 'it'),
+(7, 'pl'),
+(8, 'pt'),
+(9, 'ru'),
+(10, 'sl'),
+(11, 'tr'),
+(12, 'zh');
 
 -- --------------------------------------------------------
 
@@ -114,13 +132,15 @@ CREATE TABLE `wordclass` (
 -- Indizes für die Tabelle `arab`
 --
 ALTER TABLE `arab`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `translation_id` (`translation_id`);
 
 --
 -- Indizes für die Tabelle `hit`
 --
 ALTER TABLE `hit`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rom_id` (`rom_id`);
 
 --
 -- Indizes für die Tabelle `lang`
@@ -132,13 +152,17 @@ ALTER TABLE `lang`
 -- Indizes für die Tabelle `language`
 --
 ALTER TABLE `language`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hit_id` (`hit_id`),
+  ADD KEY `lang_id` (`lang_id`);
 
 --
 -- Indizes für die Tabelle `rom`
 --
 ALTER TABLE `rom`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `arab_id` (`arab_id`),
+  ADD KEY `wordclass_id` (`wordclass_id`);
 
 --
 -- Indizes für die Tabelle `translation`
@@ -152,7 +176,10 @@ ALTER TABLE `translation`
 ALTER TABLE `wordclass`
   ADD PRIMARY KEY (`id`);
 
-  
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
 --
 -- AUTO_INCREMENT für Tabelle `arab`
 --
@@ -169,7 +196,7 @@ ALTER TABLE `hit`
 -- AUTO_INCREMENT für Tabelle `lang`
 --
 ALTER TABLE `lang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT für Tabelle `language`
@@ -194,33 +221,36 @@ ALTER TABLE `translation`
 --
 ALTER TABLE `wordclass`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- Foreignkeys für die Tabelle `language`
+-- Constraints der exportierten Tabellen
 --
-ALTER TABLE `language`
-  ADD FOREIGN KEY (`hit_id`) REFERENCES `hit`(`id`),
-  ADD FOREIGN KEY (`lang_id`) REFERENCES `lang`(`id`);
+
 --
--- Foreignkeys für die Tabelle `hit`
---
-ALTER TABLE `hit`
-  ADD FOREIGN KEY (`rom_id`) REFERENCES `rom`(`id`);
---
--- Foreignkeys für die Tabelle `rom`
---
-ALTER TABLE `rom`
-  ADD FOREIGN KEY (`arab_id`) REFERENCES `arab`(`id`),
-  ADD FOREIGN KEY (`wordclass_id`) REFERENCES `wordclass`(`id`);
---
--- Foreignkeys für die Tabelle `arab`
+-- Constraints der Tabelle `arab`
 --
 ALTER TABLE `arab`
-  ADD FOREIGN KEY (`translation_id`) REFERENCES `translation`(`id`);
+  ADD CONSTRAINT `arab_ibfk_1` FOREIGN KEY (`translation_id`) REFERENCES `translation` (`id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- Constraints der Tabelle `hit`
 --
+ALTER TABLE `hit`
+  ADD CONSTRAINT `hit_ibfk_1` FOREIGN KEY (`rom_id`) REFERENCES `rom` (`id`);
 
+--
+-- Constraints der Tabelle `language`
+--
+ALTER TABLE `language`
+  ADD CONSTRAINT `language_ibfk_1` FOREIGN KEY (`hit_id`) REFERENCES `hit` (`id`),
+  ADD CONSTRAINT `language_ibfk_2` FOREIGN KEY (`lang_id`) REFERENCES `lang` (`id`);
+
+--
+-- Constraints der Tabelle `rom`
+--
+ALTER TABLE `rom`
+  ADD CONSTRAINT `rom_ibfk_1` FOREIGN KEY (`arab_id`) REFERENCES `arab` (`id`),
+  ADD CONSTRAINT `rom_ibfk_2` FOREIGN KEY (`wordclass_id`) REFERENCES `wordclass` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
