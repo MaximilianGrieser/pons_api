@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation.Peers;
 using System.Windows.Documents;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace pons_api
 {
@@ -16,12 +17,26 @@ namespace pons_api
         {
             List<string> results = new List<string>();
             var DBConnect = DBConnection.OpenConnection();
-            string query = "SELECT target FROM arab WHERE source = " + text;
+            string query = "SELECT target FROM translation WHERE source = " + text;
             MySqlCommand cmd = new MySqlCommand(query, DBConnect);
             MySqlDataReader dataReader = cmd.ExecuteReader();
             while (dataReader.Read())
             {
                 results.Add(dataReader["target"].ToString());
+            }
+            return results;
+        }
+
+        public static Dictionary<int, string> GetAllLanguages()
+        {
+            Dictionary<int, string> results = new Dictionary<int, string>();
+            var DBConnect = DBConnection.OpenConnection();
+            string query = "SELECT * FROM lang";
+            MySqlCommand cmd = new MySqlCommand(query, DBConnect);
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+            while (dataReader.Read())
+            {
+                results.Add(Int32.Parse(dataReader["id"].ToString()), dataReader["description"].ToString());
             }
             return results;
         }

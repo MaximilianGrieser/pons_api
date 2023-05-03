@@ -13,9 +13,17 @@ namespace pons_api
         public static void SaveResponseToDB(List<language> languages)
         {
             var DBConnect = DBConnection.OpenConnection();
-            string query = "INSERT INTO arab VALUES (" + languages[0].hits[0].roms[0].arabs[0].translations[0].target + 
-                                                    "," + languages[0].hits[0].roms[0].arabs[0].translations[0].source + ");";
-            MySqlCommand cmd = new MySqlCommand(query, DBConnect);
+            Dictionary<int, string> languageDict = DBLoadService.GetAllLanguages();
+            foreach (var translation in languages[0].hits[0].roms[0].arabs[0].translations)
+            {
+
+                string query = "INSERT INTO translation VALUES (" + translation.target +
+                                                        "," + translation.source +
+                                                        "," + languageDict.Where(x=> x.Value == languages[0].lang).ToString() +
+                                                        "," + languageDict.Where(x=> x.Value == languages[1].lang).ToString() + ");";
+
+                MySqlCommand cmd = new MySqlCommand(query, DBConnect);
+            }
         }
     }
 }
