@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace pons_api {
-    class rom {
+    public class rom {
         public string headword { get; set; }
         public string headword_full { get; set; }
 

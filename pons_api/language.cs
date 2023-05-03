@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace pons_api {
-    class language {
+    public class language {
         public string lang { get; set; }
         public List<hit> hits { get; set; }
     }

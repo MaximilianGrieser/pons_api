@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace pons_api {
-    class arab {
+    public class arab {
         public string header { get; set; }
         public List<translation> translations { get; set; }
     }

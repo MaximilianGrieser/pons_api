@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace pons_api {
-    class translation {
+    public class translation {
         public string source { get; set; }
         public string target { get; set; }
     }
