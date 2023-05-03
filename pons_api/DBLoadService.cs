@@ -13,8 +13,10 @@ namespace pons_api
 {
     static public class DBLoadService
     {
-        public static List<string> getTransaltion(string text)
+        public static List<string> getTranslation(string text)
         {
+            try
+            {
             List<string> results = new List<string>();
             var DBConnect = DBConnection.OpenConnection();
             string query = "SELECT target FROM translation WHERE source = " + text;
@@ -25,6 +27,10 @@ namespace pons_api
                 results.Add(dataReader["target"].ToString());
             }
             return results;
+            }catch( Exception ex) {
+                return null;
+            }
+
         }
 
         public static Dictionary<int, string> GetAllLanguages()

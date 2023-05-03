@@ -11,12 +11,16 @@ namespace pons_api {
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        Dictionary<int, string> languages;
         public MainWindow() {
             InitializeComponent();
-            Dictionary<int, string> languages = DBLoadService.getLanguages();
-            CB_sourceLang.ItemsSource = languages;
-            CB_targetLang.ItemsSource = languages;
-            CB_vocLanguage.ItemsSource = languages;
+            languages = DBLoadService.GetAllLanguages();
+            CB_sourceLang.ItemsSource = languages.Values;
+            CB_targetLang.ItemsSource = languages.Values;
+            CB_vocLanguage.ItemsSource = languages.Values;
+            CB_vocLanguage.SelectedIndex = 2;
+            CB_sourceLang.SelectedIndex = 0;
+            CB_targetLang.SelectedIndex = 2;
         }
 
         public static string apiRequest(string termToLookUp, string languageCode) {
@@ -49,8 +53,8 @@ namespace pons_api {
         }
 
         private void BTN_translate_Click(object sender, RoutedEventArgs e) {
-            if (DBLoadService.getTransaltion(TB_input.Text) != null) {
-                TB_resullt.Text = DBLoadService.getTransaltion(TB_input.Text)[0];
+            if (DBLoadService.getTranslation(TB_input.Text) != null) {
+                TB_resullt.Text = DBLoadService.getTranslation(TB_input.Text)[0];
             } else {
                 TB_resullt.Text = getTranslationFromAPI(TB_input.Text);
             }
@@ -60,7 +64,7 @@ namespace pons_api {
             string response = apiRequest(sword, "deen");
             List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
 
-            DBSaveService.saveResponse(r);
+            DBSaveService.SaveResponseToDB(r);
 
             Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
             return removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
@@ -68,21 +72,21 @@ namespace pons_api {
 
         private void BTN_vocTrainer_Click(object sender, RoutedEventArgs e) {
             if (TB_vocQuestion.Text != String.Empty) {
-                if (DBLoadService.getTransaltion(TB_vocQuestion.Text).Contains(TB_vocInput.Text)) {
+                if (DBLoadService.getTranslation(TB_vocQuestion.Text).Contains(TB_vocInput.Text)) {
                     MessageBox.Show("Your answer was correct", "Correct", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 } else {
                     MessageBoxResult result = MessageBox.Show("Your answer was wrong", "Wrong", MessageBoxButton.YesNo, MessageBoxImage.Error);
                     if (result == MessageBoxResult.Yes) {
-                        MessageBox.Show("The correct answers are: " + DBLoadService.getTransaltion(TB_vocQuestion.Text), "Answer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        MessageBox.Show("The correct answers are: " + DBLoadService.getTranslation(TB_vocQuestion.Text), "Answer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                 }
             }
-            string[] vocs = DBLoadService.getAllTranslations();
+            //string[] vocs = DBLoadService.getAllTranslations();
 
-            Random rnd = new Random();
-            int dice = rnd.Next(0, vocs.Length);
+            //Random rnd = new Random();
+            //int dice = rnd.Next(0, vocs.Length);
 
-            TB_vocQuestion.Text = vocs[dice];
+            //TB_vocQuestion.Text = vocs[dice];
         }
     }
 }
