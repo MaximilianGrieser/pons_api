@@ -80,6 +80,7 @@ namespace pons_api
                 List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
 
                 DBSaveService.SaveResponseToDB(r, CB_targetLang.Text);
+                LB_hits.ItemsSource = r[0].hits;
 
                 Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
                 return removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
