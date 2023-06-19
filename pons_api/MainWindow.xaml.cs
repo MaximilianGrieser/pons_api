@@ -114,5 +114,25 @@ namespace pons_api
 
             TB_vocQuestion.Text = vocs[dice];
         }
+
+        private void LB_hits_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            hit selectedHit = (hit)LB_hits.SelectedItem;
+            LB_roms.ItemsSource = selectedHit.roms;
+        }
+
+        private void LB_roms_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            rom selectedRom = (rom)LB_roms.SelectedItem;
+            LB_arabs.ItemsSource = selectedRom.arabs;
+        }
+
+        private void LB_arabs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            arab selectedArab = (arab)LB_arabs.SelectedItem;
+            LB_translations.ItemsSource = selectedArab.translations;
+        }
+
+        private void LB_translations_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            translation selectedTranslation = (translation)LB_translations.SelectedItem;
+            TB_source.Text = selectedTranslation.source;
+        }
     }
 }

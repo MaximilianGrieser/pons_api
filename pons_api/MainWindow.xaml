@@ -10,12 +10,56 @@
         <TextBox x:Name="TB_resullt" HorizontalAlignment="Left" Height="23" Margin="457,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="TB_input" HorizontalAlignment="Left" Height="23" Margin="161,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="BTN_translate" Content="Translate" HorizontalAlignment="Left" Margin="599,9,0,0" VerticalAlignment="Top" Width="75" Click="BTN_translate_Click" RenderTransformOrigin="1.06,-8.925"/>
-        <Button x:Name="BTN_vocTrainer" Content="Train" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="75" Click="BTN_vocTrainer_Click"/>
-        <TextBox x:Name="TB_vocInput" HorizontalAlignment="Left" Height="23" Margin="10,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.658,0.554"/>
-        <TextBox x:Name="TB_vocQuestion" HorizontalAlignment="Left" Height="23" Margin="10,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="BTN_vocTrainer" Content="Train" HorizontalAlignment="Left" Margin="10,390,0,0" VerticalAlignment="Top" Width="75" Click="BTN_vocTrainer_Click"/>
+        <TextBox x:Name="TB_vocInput" HorizontalAlignment="Left" Height="23" Margin="10,354,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.658,0.554"/>
+        <TextBox x:Name="TB_vocQuestion" HorizontalAlignment="Left" Height="23" Margin="10,326,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CB_targetLang" HorizontalAlignment="Left" Margin="311,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="CB_vocLanguage" HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CB_vocLanguage" HorizontalAlignment="Left" Margin="10,299,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="CB_sourceLang" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
-
+        <ListBox x:Name="LB_hits" HorizontalAlignment="Left" Height="219" Margin="10,51,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="LB_hits_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Label Name="type" 
+                               Content="{Binding type, Mode=OneWay}"
+                               Grid.Column="0"></Label>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox x:Name="LB_roms" HorizontalAlignment="Left" Height="219" Margin="133,51,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="LB_roms_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Label Name="headword" 
+                               Content="{Binding headword, Mode=OneWay}"
+                               Grid.Column="0"></Label>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox x:Name="LB_arabs" HorizontalAlignment="Left" Height="219" Margin="255,51,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="LB_arabs_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Label Name="header" 
+                               Content="{Binding header, Mode=OneWay}"
+                               Grid.Column="0"></Label>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox x:Name="LB_translations" HorizontalAlignment="Left" Height="219" Margin="379,51,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="LB_translations_SelectionChanged" RenderTransformOrigin="0.875,0.966">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Label Name="source" 
+                                   Content="{Binding source, Mode=OneWay}"
+                                   Grid.Column="0"></Label>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBox x:Name="TB_source" HorizontalAlignment="Left" Height="100" Margin="504,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263"/>
     </Grid>
 </Window>
