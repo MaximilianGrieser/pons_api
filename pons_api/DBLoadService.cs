@@ -19,7 +19,7 @@ namespace pons_api
             {
                 List<string> results = new List<string>();
                 var DBConnect = DBConnection.OpenConnection();
-                string query = "SELECT target FROM translation WHERE source = " + source;
+                string query = "SELECT target FROM translation WHERE source = '" + source + "'";
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
@@ -40,7 +40,7 @@ namespace pons_api
             {
                 List<string> results = new List<string>();
                 var DBConnect = DBConnection.OpenConnection();
-                string query = "SELECT source FROM translation WHERE target = " + target;
+                string query = "SELECT source FROM translation WHERE target = '" + target + "'";
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())

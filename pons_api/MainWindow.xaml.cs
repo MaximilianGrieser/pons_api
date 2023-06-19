@@ -5,6 +5,7 @@ using System.Net;
 using System.Windows;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace pons_api
 {
@@ -75,8 +76,7 @@ namespace pons_api
         {
             try
             {
-
-                string response = apiRequest(sword, "deen");
+                string response = apiRequest(sword, CB_sourceLang.Text + CB_targetLang.Text);
                 List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
 
                 DBSaveService.SaveResponseToDB(r);
