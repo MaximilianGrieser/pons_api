@@ -62,7 +62,7 @@ namespace pons_api
 
         private void BTN_translate_Click(object sender, RoutedEventArgs e)
         {
-            if (DBLoadService.getTranslation(TB_input.Text) != null)
+            if (DBLoadService.getTranslation(TB_input.Text).Count > 0)
             {
                 TB_resullt.Text = DBLoadService.getTranslation(TB_input.Text)[0];
             }
@@ -76,10 +76,10 @@ namespace pons_api
         {
             try
             {
-                string response = apiRequest(sword, CB_sourceLang.Text + CB_targetLang.Text);
+                string response = apiRequest(sword, "deen");
                 List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
 
-                DBSaveService.SaveResponseToDB(r);
+                DBSaveService.SaveResponseToDB(r, CB_targetLang.Text);
 
                 Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
                 return removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
