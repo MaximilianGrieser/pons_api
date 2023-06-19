@@ -13,13 +13,34 @@ namespace pons_api
 {
     static public class DBLoadService
     {
-        public static List<string> getTranslation(string text)
+        public static List<string> getTranslation(string source)
         {
             try
             {
                 List<string> results = new List<string>();
                 var DBConnect = DBConnection.OpenConnection();
-                string query = "SELECT target FROM translation WHERE source = " + text;
+                string query = "SELECT target FROM translation WHERE source = " + source;
+                MySqlCommand cmd = new MySqlCommand(query, DBConnect);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    results.Add(dataReader["target"].ToString());
+                }
+                return results;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+        public static List<string> getVocTranslation(string target)
+        {
+            try
+            {
+                List<string> results = new List<string>();
+                var DBConnect = DBConnection.OpenConnection();
+                string query = "SELECT source FROM translation WHERE target = " + target;
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
