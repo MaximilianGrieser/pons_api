@@ -17,12 +17,13 @@ namespace pons_api
             foreach (var translation in languages[0].hits[0].roms[0].arabs[0].translations)
             {
 
-                string query = "INSERT INTO translation VALUES (" + translation.target +
+                string query = "INSERT INTO translation (target, sourche, id VALUES (" + translation.target +
                                                         "," + translation.source +
-                                                        "," + languageDict.Where(x=> x.Value == languages[0].lang).ToString() +
-                                                        "," + languageDict.Where(x=> x.Value == languages[1].lang).ToString() + ");";
+                                                        "," + languageDict.Values.Where(x=> x == languages[0].lang).ToString() +
+                                                        "," + languageDict.Keys.Where(x=> x.Equals(languages[1].lang)).ToString() + ");";
 
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
+                cmd.ExecuteNonQuery();
             }
         }
     }

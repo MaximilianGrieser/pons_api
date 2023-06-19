@@ -17,17 +17,19 @@ namespace pons_api
         {
             try
             {
-            List<string> results = new List<string>();
-            var DBConnect = DBConnection.OpenConnection();
-            string query = "SELECT target FROM translation WHERE source = " + text;
-            MySqlCommand cmd = new MySqlCommand(query, DBConnect);
-            MySqlDataReader dataReader = cmd.ExecuteReader();
-            while (dataReader.Read())
-            {
-                results.Add(dataReader["target"].ToString());
+                List<string> results = new List<string>();
+                var DBConnect = DBConnection.OpenConnection();
+                string query = "SELECT target FROM translation WHERE source = " + text;
+                MySqlCommand cmd = new MySqlCommand(query, DBConnect);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    results.Add(dataReader["target"].ToString());
+                }
+                return results;
             }
-            return results;
-            }catch( Exception ex) {
+            catch (Exception ex)
+            {
                 return null;
             }
 
@@ -45,6 +47,27 @@ namespace pons_api
                 results.Add(Int32.Parse(dataReader["id"].ToString()), dataReader["description"].ToString());
             }
             return results;
+        }
+
+        public static List<string> getAllTranslations()
+        {
+            try
+            {
+                List<string> results = new List<string>();
+                var DBConnect = DBConnection.OpenConnection();
+                string query = "SELECT target FROM translation";
+                MySqlCommand cmd = new MySqlCommand(query, DBConnect);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                while (dataReader.Read())
+                {
+                    results.Add(dataReader["target"].ToString());
+                }
+                return results;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
