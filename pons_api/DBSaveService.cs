@@ -16,10 +16,11 @@ namespace pons_api
         {
             var DBConnect = DBConnection.OpenConnection();
             Dictionary<int, string> languageDict = DBLoadService.GetAllLanguages();
+            Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
             foreach (var translation in languages[0].hits[0].roms[0].arabs[0].translations)
             {
-                string query = "INSERT INTO translation (target, source, sourceLanguageId, targetLanguageId) VALUES ('" + translation.target +
-                                                        "','" + translation.source +
+                string query = "INSERT INTO translation (target, source, sourceLanguageId, targetLanguageId) VALUES ('" + removeHTMLtagsRegex.Replace(translation.target, "") +
+                                                        "','" + removeHTMLtagsRegex.Replace(translation.source, "") +
                                                         "'," + GetLanguageId(languageDict, languages[0].lang).ToString() +
                                                         "," + GetLanguageId(languageDict, targetLanguage).ToString() + ")";
 
