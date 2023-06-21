@@ -18,8 +18,8 @@ namespace pons_api
             Dictionary<int, string> languageDict = DBLoadService.GetAllLanguages();
             foreach (var translation in languages[0].hits[0].roms[0].arabs[0].translations)
             {
-                string query = "INSERT INTO translation (target, source, sourceLanguageId, targetLanguageId) VALUES ('" + removeHTMLtagsRegex.Replace(translation.target, "") +
-                                                        "','" + removeHTMLtagsRegex.Replace(translation.source, "") +
+                string query = "INSERT INTO translation (target, source, sourceLanguageId, targetLanguageId) VALUES ('" +translation.target +
+                                                        "','" + translation.source +
                                                         "'," + DBLoadService.GetLanguageId(languageDict, languages[0].lang).ToString() +
                                                         "," + DBLoadService.GetLanguageId(languageDict, targetLanguage).ToString() + ")";
 

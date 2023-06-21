@@ -114,7 +114,7 @@ namespace pons_api
         {
             if (TB_vocQuestion.Text != String.Empty)
             {
-                if (DBLoadService.getVocTranslation(TB_vocQuestion.Text, CB_vocLanguageTarget.Text).Exists(x => x.Equals(TB_vocInput.Text, StringComparison.OrdinalIgnoreCase)))
+                if (DBLoadService.GetVocTranslation(TB_vocQuestion.Text, CB_vocLanguageTarget.Text).Exists(x => x.Equals(TB_vocInput.Text, StringComparison.OrdinalIgnoreCase)))
                 {
                     score += 100;
                     MessageBox.Show("Your answer was correct", "Correct", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -125,7 +125,7 @@ namespace pons_api
                     score -= 2;
                     if (result == MessageBoxResult.Yes)
                     {
-                        string answer = DBLoadService.getVocTranslation(TB_vocQuestion.Text, CB_vocLanguageTarget.Text)[0];
+                        string answer = DBLoadService.GetVocTranslation(TB_vocQuestion.Text, CB_vocLanguageTarget.Text)[0];
                         MessageBox.Show("The correct answer is: " + answer, "Answer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                 }
@@ -133,7 +133,7 @@ namespace pons_api
             TB_score.Text = score.ToString();
             TB_vocInput.Text = "";
 
-            var vocs = DBLoadService.getAllTranslations(CB_vocLanguage.Text);
+            var vocs = DBLoadService.GetAllTranslations(CB_vocLanguage.Text);
 
             Random rnd = new Random();
             int dice = rnd.Next(0, vocs.Count);
