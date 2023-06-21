@@ -77,13 +77,16 @@ namespace pons_api
             return results;
         }
 
-        public static List<string> getAllTranslations()
+        public static List<string> getAllTranslations(string sourceLanguage)
         {
             try
             {
                 List<string> results = new List<string>();
                 var DBConnect = DBConnection.OpenConnection();
-                string query = "SELECT target FROM translation";
+                Dictionary<int, string> languageDict = GetAllLanguages();
+                string query = "SELECT target " +
+                               "FROM translation " +
+                               "WHERE sourceLanguageId =" + languageDict.Keys.Where(x=>x.Equals(sourceLanguage));
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
