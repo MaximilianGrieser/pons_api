@@ -136,9 +136,9 @@ namespace pons_api
             TB_score.Text = score.ToString();
             TB_vocInput.Text = "";
 
-            var vocs = DBLoadService.GetAllTranslations(CB_vocLanguage.Text);
+            var vocs = DBLoadService.GetAllTranslations(CB_vocLanguage.Text, CB_vocLanguageTarget.Text);
             if (vocs.Count == 0) {
-                MessageBox.Show("There are no Vos in these Languages!");
+                MessageBox.Show("There are no Vocs in these Languages!");
             } else {
                 Random rnd = new Random();
                 int dice = rnd.Next(0, vocs.Count);

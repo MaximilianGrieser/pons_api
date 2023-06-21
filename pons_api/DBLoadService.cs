@@ -77,7 +77,7 @@ namespace pons_api
             return results;
         }
 
-        public static List<string> GetAllTranslations(string sourceLanguage)
+        public static List<string> GetAllTranslations(string targetLanguage, string sourceLanguage)
         {
             try
             {
@@ -86,7 +86,8 @@ namespace pons_api
                 Dictionary<int, string> languageDict = GetAllLanguages();
                 string query = "SELECT target " +
                                "FROM translation " +
-                               "WHERE targetLanguageId =" + GetLanguageId(languageDict, sourceLanguage);
+                               "WHERE targetLanguageId =" + GetLanguageId(languageDict, targetLanguage) +
+                               " AND sourceLanguageId =" + GetLanguageId(languageDict,sourceLanguage);
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
@@ -98,7 +99,7 @@ namespace pons_api
             catch (Exception ex)
             {
                 File.AppendAllText("pons.log", ex.Message);
-                return null;
+                return new List<string>();
             }
         }
         public static int GetLanguageId(Dictionary<int, string> languageDict, string lang)
