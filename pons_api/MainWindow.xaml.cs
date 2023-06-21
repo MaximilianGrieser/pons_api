@@ -74,12 +74,13 @@ namespace pons_api
             if (DBLoadService.GetTranslation(TB_input.Text).Count > 0)
             {
                 TB_resullt.Text = DBLoadService.GetTranslation(TB_input.Text)[0];
+                TB_source.Text = "";
+                LB_translations.ItemsSource = DBLoadService.GetTranslation(TB_input.Text);
             }
             else
             {
                 TB_resullt.Text = getTranslationFromAPI(TB_input.Text);
             }
-            TB_score.Text = "";
         }
 
         private string getTranslationFromAPI(string sword)
