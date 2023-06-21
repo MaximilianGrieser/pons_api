@@ -14,6 +14,11 @@ namespace pons_api
     /// </summary>
     public partial class MainWindow : Window
     {
+        hit selectedHit = new hit();
+        rom selectedRom = new rom();
+        arab selectedArab = new arab();
+        translation selectedTranslation = new translation();
+        int score = 0;
         Dictionary<int, string> languages;
         public MainWindow()
         {
@@ -22,9 +27,12 @@ namespace pons_api
             CB_sourceLang.ItemsSource = languages.Values;
             CB_targetLang.ItemsSource = languages.Values;
             CB_vocLanguage.ItemsSource = languages.Values;
+            CB_vocLanguageTarget.ItemsSource = languages.Values;
             CB_vocLanguage.SelectedIndex = 2;
             CB_sourceLang.SelectedIndex = 0;
             CB_targetLang.SelectedIndex = 2;
+            CB_vocLanguageTarget.SelectedIndex = 0;
+            TB_score.Text = score.ToString();
         }
 
         public static string apiRequest(string termToLookUp, string languageCode)
@@ -80,10 +88,16 @@ namespace pons_api
                 List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
 
                 DBSaveService.SaveResponseToDB(r, CB_targetLang.Text);
-                LB_hits.ItemsSource = r[0].hits;
-
                 Regex removeHTMLtagsRegex = new Regex("<(?:\"[^\"]*\"['\"]*|'[^']*'['\"]*|[^'\">])+>");
-                return removeHTMLtagsRegex.Replace(r[0].hits[0].roms[0].arabs[0].translations[0].target, "");
+                int index = 0;
+                foreach (translation translation in r[0].hits[0].roms[0].arabs[0].translations) {
+                    r[0].hits[0].roms[0].arabs[0].translations[index].source = removeHTMLtagsRegex.Replace(translation.target, "");
+                    index++;
+                }
+
+                LB_translations.ItemsSource = r[0].hits[0].roms[0].arabs[0].translations;
+
+                return r[0].hits[0].roms[0].arabs[0].translations[0].target;
             }
             catch (Exception ex)
             {
@@ -95,19 +109,25 @@ namespace pons_api
         {
             if (TB_vocQuestion.Text != String.Empty)
             {
-                if (DBLoadService.getTranslation(TB_vocQuestion.Text).Contains(TB_vocInput.Text))
+                if (DBLoadService.getVocTranslation(TB_vocQuestion.Text).Exists(x => x.Equals(TB_vocInput.Text, StringComparison.OrdinalIgnoreCase)))
                 {
+                    score += 100;
                     MessageBox.Show("Your answer was correct", "Correct", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
                 else
                 {
-                    MessageBoxResult result = MessageBox.Show("Your answer was wrong", "Wrong", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    MessageBoxResult result = MessageBox.Show("Your answer was wrong Press Yes to see Correct Answer", "Wrong", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    score -= 2;
                     if (result == MessageBoxResult.Yes)
                     {
-                        MessageBox.Show("The correct answers are: " + DBLoadService.getTranslation(TB_vocQuestion.Text), "Answer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        string answer = DBLoadService.getVocTranslation(TB_vocQuestion.Text)[0];
+                        MessageBox.Show("The correct answer is: " + answer, "Answer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                 }
             }
+            TB_score.Text = score.ToString();
+            TB_vocInput.Text = "";
+
             var vocs = DBLoadService.getAllTranslations();
 
             Random rnd = new Random();
@@ -116,24 +136,13 @@ namespace pons_api
             TB_vocQuestion.Text = vocs[dice];
         }
 
-        private void LB_hits_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
-            hit selectedHit = (hit)LB_hits.SelectedItem;
-            LB_roms.ItemsSource = selectedHit.roms;
-        }
-
-        private void LB_roms_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
-            rom selectedRom = (rom)LB_roms.SelectedItem;
-            LB_arabs.ItemsSource = selectedRom.arabs;
-        }
-
-        private void LB_arabs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
-            arab selectedArab = (arab)LB_arabs.SelectedItem;
-            LB_translations.ItemsSource = selectedArab.translations;
-        }
-
         private void LB_translations_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
-            translation selectedTranslation = (translation)LB_translations.SelectedItem;
-            TB_source.Text = selectedTranslation.source;
+            if (selectedTranslation == null) {
+                TB_source.Text = "";
+            } else if (LB_translations.SelectedItem != null) {
+                selectedTranslation = (translation)LB_translations.SelectedItem;
+                TB_source.Text = selectedTranslation.source;
+            }
         }
     }
 }

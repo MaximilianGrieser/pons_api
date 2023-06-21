@@ -45,7 +45,7 @@ namespace pons_api
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
                 {
-                    results.Add(dataReader["target"].ToString());
+                    results.Add(dataReader["source"].ToString());
                 }
                 return results;
             }
