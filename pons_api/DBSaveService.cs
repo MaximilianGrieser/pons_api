@@ -18,22 +18,15 @@ namespace pons_api
             Dictionary<int, string> languageDict = DBLoadService.GetAllLanguages();
             foreach (var translation in languages[0].hits[0].roms[0].arabs[0].translations)
             {
-                string query = "INSERT INTO translation (target, source, sourceLanguageId, targetLanguageId) VALUES ('" + translation.target +
-                                                        "','" + translation.source +
-                                                        "'," + GetLanguageId(languageDict, languages[0].lang).ToString() +
-                                                        "," + GetLanguageId(languageDict, targetLanguage).ToString() + ")";
+                string query = "INSERT INTO translation (target, source, sourceLanguageId, targetLanguageId) VALUES ('" + removeHTMLtagsRegex.Replace(translation.target, "") +
+                                                        "','" + removeHTMLtagsRegex.Replace(translation.source, "") +
+                                                        "'," + DBLoadService.GetLanguageId(languageDict, languages[0].lang).ToString() +
+                                                        "," + DBLoadService.GetLanguageId(languageDict, targetLanguage).ToString() + ")";
 
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 cmd.ExecuteNonQuery();
             }
         }
-        public static int GetLanguageId(Dictionary<int, string> languageDict, string lang) {
-            foreach (var language in languageDict) {
-                if (language.Value.Equals(lang)) {
-                    return language.Key;
-                }
-            }
-            return 0;
-        }
+       
     }
 }
