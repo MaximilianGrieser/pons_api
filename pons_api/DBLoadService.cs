@@ -46,7 +46,7 @@ namespace pons_api
                 string query = "SELECT source " +
                                "FROM translation " +
                                "WHERE target = '" + target + "' " +
-                               "AND targetLanguageId =" + languageDict.Keys.Where(x=>x.Equals(targetLanguage));
+                               "AND targetLanguageId =" + GetLanguageId(languageDict,targetLanguage);
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
