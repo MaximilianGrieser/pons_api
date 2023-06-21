@@ -14,7 +14,7 @@ namespace pons_api
 {
     static public class DBLoadService
     {
-        public static List<string> getTranslation(string source)
+        public static List<string> GetTranslation(string source)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace pons_api
             }
 
         }
-        public static List<string> getVocTranslation(string target, string targetLanguage)
+        public static List<string> GetVocTranslation(string target, string targetLanguage)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace pons_api
             return results;
         }
 
-        public static List<string> getAllTranslations(string sourceLanguage)
+        public static List<string> GetAllTranslations(string sourceLanguage)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace pons_api
                 Dictionary<int, string> languageDict = GetAllLanguages();
                 string query = "SELECT target " +
                                "FROM translation " +
-                               "WHERE sourceLanguageId =" + languageDict.Keys.Where(x=>x.Equals(sourceLanguage));
+                               "WHERE sourceLanguageId =" + GetLanguageId(languageDict, sourceLanguage);
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
@@ -100,6 +100,17 @@ namespace pons_api
                 File.WriteAllText("pons.log", ex.Message);
                 return null;
             }
+        }
+        public static int GetLanguageId(Dictionary<int, string> languageDict, string lang)
+        {
+            foreach (var language in languageDict)
+            {
+                if (language.Value.Equals(lang))
+                {
+                    return language.Key;
+                }
+            }
+            return 0;
         }
     }
 }

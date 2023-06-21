@@ -70,9 +70,9 @@ namespace pons_api
 
         private void BTN_translate_Click(object sender, RoutedEventArgs e)
         {
-            if (DBLoadService.getTranslation(TB_input.Text).Count > 0)
+            if (DBLoadService.GetTranslation(TB_input.Text).Count > 0)
             {
-                TB_resullt.Text = DBLoadService.getTranslation(TB_input.Text)[0];
+                TB_resullt.Text = DBLoadService.GetTranslation(TB_input.Text)[0];
             }
             else
             {
