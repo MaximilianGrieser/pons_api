@@ -6,6 +6,7 @@ using System.Windows;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.Linq;
 
 namespace pons_api
 {
@@ -27,7 +28,7 @@ namespace pons_api
             CB_targetLang.SelectedIndex = 2;
         }
 
-        public static string apiRequest(string termToLookUp, string languageCode)
+        public static string apiRequest(string termToLookUp, string languageCode, string sourceLang)
         {
             string user = "pi_gmbh";
             string password = "e3fi3";
@@ -36,7 +37,7 @@ namespace pons_api
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             string endPoint = "https://api.pons.com/v1/dictionary";
-            string query = endPoint + "?q=" + termToLookUp + "&l=" + languageCode;
+            string query = endPoint + "?q=" + termToLookUp + "&l=" + languageCode + "&in=" + sourceLang;
 
             WebRequest request = WebRequest.Create(query);
             request.Headers.Add("X-Secret: bf54d04209fe20b0bf59889e8a5560d44617b224a953e4cf9baa70aacd6d7a62");
@@ -55,7 +56,6 @@ namespace pons_api
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
                 return null;
             }
         }
@@ -74,10 +74,15 @@ namespace pons_api
 
         private string getTranslationFromAPI(string sword)
         {
+            string response = apiRequest(sword, CB_sourceLang.Text + CB_targetLang.Text, CB_sourceLang.Text);
+            if (response == null)
+            {
+                response = apiRequest(sword, CB_targetLang.Text + CB_sourceLang.Text, CB_sourceLang.Text);
+            }
             try
             {
-                string response = apiRequest(sword, "deen");
                 List<language> r = JsonConvert.DeserializeObject<List<language>>(response);
+                
 
                 DBSaveService.SaveResponseToDB(r, CB_targetLang.Text);
                 LB_hits.ItemsSource = r[0].hits;
@@ -87,7 +92,7 @@ namespace pons_api
             }
             catch (Exception ex)
             {
-                return string.Empty;
+                return String.Empty;
             }
         }
 
@@ -95,7 +100,7 @@ namespace pons_api
         {
             if (TB_vocQuestion.Text != String.Empty)
             {
-                if (DBLoadService.getTranslation(TB_vocQuestion.Text).Contains(TB_vocInput.Text))
+                if (DBLoadService.getTranslation(TB_vocQuestion.Text).Exists(x=> x.Equals(TB_vocInput.Text, StringComparison.OrdinalIgnoreCase)))
                 {
                     MessageBox.Show("Your answer was correct", "Correct", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }

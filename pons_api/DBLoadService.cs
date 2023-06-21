@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,17 +31,22 @@ namespace pons_api
             }
             catch (Exception ex)
             {
+                File.WriteAllText("pons.log", ex.Message);
                 return null;
             }
 
         }
-        public static List<string> getVocTranslation(string target)
+        public static List<string> getVocTranslation(string target, string targetLanguage)
         {
             try
             {
                 List<string> results = new List<string>();
                 var DBConnect = DBConnection.OpenConnection();
-                string query = "SELECT source FROM translation WHERE target = '" + target + "'";
+                Dictionary<int, string> languageDict = GetAllLanguages();
+                string query = "SELECT source " +
+                               "FROM translation " +
+                               "WHERE target = '" + target + "' " +
+                               "AND targetLanguageId =" + languageDict.Keys.Where(x=>x.Equals(targetLanguage));
                 MySqlCommand cmd = new MySqlCommand(query, DBConnect);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
                 while (dataReader.Read())
@@ -51,6 +57,7 @@ namespace pons_api
             }
             catch (Exception ex)
             {
+                File.WriteAllText("pons.log", ex.Message);
                 return null;
             }
 
@@ -87,6 +94,7 @@ namespace pons_api
             }
             catch (Exception ex)
             {
+                File.WriteAllText("pons.log", ex.Message);
                 return null;
             }
         }
