@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pons_api"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="PONS" Height="450" Width="800">
     <Grid>
         <TextBox x:Name="TB_resullt" HorizontalAlignment="Left" Height="23" Margin="457,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="TB_input" HorizontalAlignment="Left" Height="23" Margin="161,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="BTN_translate" Content="Translate" HorizontalAlignment="Left" Margin="599,9,0,0" VerticalAlignment="Top" Width="75" Click="BTN_translate_Click" RenderTransformOrigin="1.06,-8.925"/>
         <Button x:Name="BTN_vocTrainer" Content="Train" HorizontalAlignment="Left" Margin="10,390,0,0" VerticalAlignment="Top" Width="75" Click="BTN_vocTrainer_Click"/>
-        <TextBox x:Name="TB_vocInput" HorizontalAlignment="Left" Height="23" Margin="10,354,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="469" RenderTransformOrigin="0.658,0.554"/>
-        <TextBox x:Name="TB_vocQuestion" HorizontalAlignment="Left" Height="23" Margin="10,326,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="469"/>
+        <TextBox x:Name="TB_vocInput" HorizontalAlignment="Left" Height="23" Margin="240,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="377" RenderTransformOrigin="0.658,0.554"/>
+        <TextBox x:Name="TB_vocQuestion" HorizontalAlignment="Left" Height="23" Margin="240,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="377"/>
         <ComboBox x:Name="CB_targetLang" HorizontalAlignment="Left" Margin="311,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="CB_vocLanguage" HorizontalAlignment="Left" Margin="10,299,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CB_vocLanguage" HorizontalAlignment="Left" Margin="85,307,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CB_vocLanguage_SelectionChanged"/>
         <ComboBox x:Name="CB_sourceLang" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
         <ListBox x:Name="LB_translations" HorizontalAlignment="Left" Height="219" Margin="10,51,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="LB_translations_SelectionChanged" RenderTransformOrigin="0.875,0.966">
             <ListBox.ItemTemplate>
@@ -28,9 +28,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <TextBox x:Name="TB_source" HorizontalAlignment="Left" Height="100" Margin="135,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="263"/>
-        <TextBox x:Name="TB_score" HorizontalAlignment="Left" Height="23" Margin="504,354,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="CB_vocLanguageTarget" HorizontalAlignment="Left" Margin="161,299,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Score:" HorizontalAlignment="Left" Margin="504,323,0,0" VerticalAlignment="Top"/>
-        <Label Content="in" HorizontalAlignment="Left" Margin="135,299,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TB_score" HorizontalAlignment="Left" Height="23" Margin="639,333,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="CB_vocLanguageTarget" HorizontalAlignment="Left" Margin="85,334,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CB_vocLanguageTarget_SelectionChanged"/>
+        <Label Content="Score:" HorizontalAlignment="Left" Margin="639,302,0,0" VerticalAlignment="Top" RenderTransformOrigin="4.434,0.312"/>
+        <Label Content="Question:" HorizontalAlignment="Left" Margin="10,303,0,0" VerticalAlignment="Top"/>
+        <Label Content="Answer:" HorizontalAlignment="Left" Margin="10,332,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

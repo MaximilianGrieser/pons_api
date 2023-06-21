@@ -78,6 +78,7 @@ namespace pons_api
             {
                 TB_resullt.Text = getTranslationFromAPI(TB_input.Text);
             }
+            TB_score.Text = "";
         }
 
         private string getTranslationFromAPI(string sword)
@@ -134,11 +135,14 @@ namespace pons_api
             TB_vocInput.Text = "";
 
             var vocs = DBLoadService.GetAllTranslations(CB_vocLanguage.Text);
+            if (vocs.Count == 0) {
+                MessageBox.Show("There are no Vos in these Languages!");
+            } else {
+                Random rnd = new Random();
+                int dice = rnd.Next(0, vocs.Count);
 
-            Random rnd = new Random();
-            int dice = rnd.Next(0, vocs.Count);
-
-            TB_vocQuestion.Text = vocs[dice];
+                TB_vocQuestion.Text = vocs[dice];
+            }
         }
 
         private void LB_translations_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
@@ -148,6 +152,16 @@ namespace pons_api
                 selectedTranslation = (translation)LB_translations.SelectedItem;
                 TB_source.Text = selectedTranslation.source;
             }
+        }
+
+        private void CB_vocLanguage_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            TB_vocInput.Text = "";
+            TB_vocQuestion.Text = "";
+        }
+
+        private void CB_vocLanguageTarget_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) {
+            TB_vocInput.Text = "";
+            TB_vocQuestion.Text = "";
         }
     }
 }
