@@ -31,7 +31,7 @@ namespace pons_api
             }
             catch (Exception ex)
             {
-                File.WriteAllText("pons.log", ex.Message);
+                File.AppendAllText("pons.log", ex.Message);
                 return null;
             }
 
@@ -57,7 +57,7 @@ namespace pons_api
             }
             catch (Exception ex)
             {
-                File.WriteAllText("pons.log", ex.Message);
+                File.AppendAllText("pons.log", ex.Message);
                 return null;
             }
 
@@ -97,7 +97,7 @@ namespace pons_api
             }
             catch (Exception ex)
             {
-                File.WriteAllText("pons.log", ex.Message);
+                File.AppendAllText("pons.log", ex.Message);
                 return null;
             }
         }

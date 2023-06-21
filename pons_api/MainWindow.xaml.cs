@@ -62,8 +62,9 @@ namespace pons_api
                 response.Close();
                 return responseFromServer;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                File.AppendAllText("pons.log", ex.Message);
                 return null;
             }
         }
@@ -106,6 +107,7 @@ namespace pons_api
             }
             catch (Exception ex)
             {
+                File.AppendAllText("pons.log", ex.Message);
                 return String.Empty;
             }
         }
